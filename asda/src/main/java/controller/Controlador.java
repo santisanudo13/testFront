@@ -1,14 +1,16 @@
 package controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.*;
+
 import model.Aplicacion;
 import model.Peticion;
 import model.Usuario;
@@ -31,48 +33,53 @@ public class Controlador {
 		if(dir.isDirectory()) {
 			if(dir.listFiles().length > 0)
 				for(File file : dir.listFiles())
-					if(getFileExtension(file).equals(".xls"))
+					if(getFileExtension(file).equals(".xls") || getFileExtension(file).equals(".xlsx"))
 						readPeticion(file);
 		}
 	}
 
 	public boolean readPeticion(File file) {
-		Peticion peticion = new Peticion();
+		List<Aplicacion> listAplicaciones = new ArrayList<Aplicacion>();
+		List<Usuario> listUsuarios = new ArrayList<Usuario>();
+		
 
-		Workbook workbook = null;
 		try {
-			workbook = Workbook.getWorkbook(file);
 
-			Sheet sheet = workbook.getSheet(0);
-			Cell cell1 = sheet.getCell(0, 0);
-			System.out.print(cell1.getContents() + ":");    // Test Count + :
-			Cell cell2 = sheet.getCell(0, 1);
-			System.out.println(cell2.getContents());        // 1
+            FileInputStream excelFile = new FileInputStream(file);
+            Workbook workbook = new XSSFWorkbook(excelFile);
+            Sheet datatypeSheet = workbook.getSheetAt(0);
+            Iterator<Row> iterator = datatypeSheet.iterator();
 
-			Cell cell3 = sheet.getCell(1, 0);
-			System.out.print(cell3.getContents() + ":");    // Result + :
-			Cell cell4 = sheet.getCell(1, 1);
-			System.out.println(cell4.getContents());        // Passed
+            while (iterator.hasNext()) {
 
-			System.out.print(cell1.getContents() + ":");    // Test Count + :
-			cell2 = sheet.getCell(0, 2);
-			System.out.println(cell2.getContents());        // 2
+                Row currentRow = iterator.next();
+                Iterator<Cell> cellIterator = currentRow.iterator();
 
-			System.out.print(cell3.getContents() + ":");    // Result + :
-			cell4 = sheet.getCell(1, 2);
-			System.out.println(cell4.getContents());        // Passed 2
+                while (cellIterator.hasNext()) {
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (BiffException e) {
-			e.printStackTrace();
-		} finally {
+                    Cell currentCell = cellIterator.next();
+                    //getCellTypeEnum shown as deprecated for version 3.15
+                    //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
+                    if (currentCell.getCellType() == 1) {
+                        System.out.print(currentCell.getStringCellValue() + "--");
+                    } else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
+                        System.out.print(currentCell.getNumericCellValue() + "--");
+                    }
 
-			if (workbook != null) {
-				workbook.close();
-			}
+                }
+                System.out.println();
 
-		}
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		Peticion peticion = new Peticion();
+		peticion.setListAplicaciones(listAplicaciones);
+		peticion.setListUsuarios(listUsuarios);
+		listPeticiones.add(peticion);
 		return true;
 	}
 
