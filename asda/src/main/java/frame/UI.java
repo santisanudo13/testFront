@@ -40,14 +40,17 @@ import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import java.awt.BorderLayout;
+import java.awt.Font;
 
 public class UI {
 
 	static Controlador controlador;
 	static JFrame frame;
-	private final Action eligeDirectorio = new SwingAction();
+	private final Action eligeDirectorio = new ExaminarAction();
 	static JTextPane textPaneDirectorio;
-	private final Action comenzarAnalisis = new SwingAction_1();
+	private final Action comenzarAnalisis = new ComenzarAction();
 	static JTextField textFieldAplicacionTipo;
 	static JTextField textFieldAplicacionNombre;
 	static JTextField textFieldAplicacionDescripcion;
@@ -67,6 +70,14 @@ public class UI {
 	static JTextField textFieldAplicacionOrdenDeServicio;
 	static JLabel labelCounterAplicacion;
 	static JLabel label_counterUsuario;
+	static JLabel lblPeticion;
+	private final Action anteriorAplicacionAction = new AnteriorAplicacionAction();
+	private final Action siguienteAplicacionAction = new SiguienteAplicacionAction();
+	private final Action anteriorUsuarioAction = new AnteriorUsuarioAction();
+	private final Action siguienteUsuarioAction = new SiguienteUsuarioAction();
+	private final Action anteriorPeticionAction = new AnteriorPeticionAction();
+	private final Action siguientePeticionAction = new SiguientePeticionAction();
+	private final Action subirPeticionAction = new SubirPeticionAction();
 	/**
 	 * Launch the application.
 	 */
@@ -94,7 +105,7 @@ public class UI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("KIG Ciberseguridad ISBAN Cantabria");
 		frame.setBounds(100, 100, 1094, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -117,22 +128,8 @@ public class UI {
 		textPaneDirectorio.setBounds(174, 11, 344, 23);
 		panelDirectorio.add(textPaneDirectorio);
 
-		JPanel panelControl = new JPanel();
-		panelControl.setBounds(573, 11, 401, 41);
-		frame.getContentPane().add(panelControl);
-		panelControl.setLayout(null);
-
-		JButton btnComenzar = new JButton("Comenzar");
-		btnComenzar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnComenzar.setAction(comenzarAnalisis);
-		btnComenzar.setBounds(10, 0, 114, 41);
-		panelControl.add(btnComenzar);
-
 		JPanel panelDatos = new JPanel();
-		panelDatos.setBounds(10, 116, 1058, 385);
+		panelDatos.setBounds(10, 170, 1058, 385);
 		frame.getContentPane().add(panelDatos);
 		GridBagLayout gbl_panelDatos = new GridBagLayout();
 		gbl_panelDatos.columnWidths = new int[]{0, 0, 0};
@@ -190,7 +187,7 @@ public class UI {
 		panelAplicaciones.add(labelCounterAplicacion, "2, 2, fill, fill");
 
 		JLabel lblTipo = new JLabel("Tipo");
-		panelAplicaciones.add(lblTipo, "1, 4, fill, center");
+		panelAplicaciones.add(lblTipo, "1, 4, fill, top");
 
 		textFieldAplicacionTipo = new JTextField();
 		panelAplicaciones.add(textFieldAplicacionTipo, "2, 4, fill, top");
@@ -348,23 +345,91 @@ public class UI {
 		tableUsuarioPermisos = new JTable(new DefaultTableModel(new Object[]{"Tipo", "Rol"}, 0));
 		scrollPane.setViewportView(tableUsuarioPermisos);
 
+		JPanel panelControlAplicacion = new JPanel();
+		panelControlAplicacion.setBounds(10, 118, 491, 41);
+		frame.getContentPane().add(panelControlAplicacion);
 
-		JButton btnSiguienteAplicacin = new JButton("Siguiente Aplicaci\u00F3n");
-		btnSiguienteAplicacin.setBounds(10, 74, 205, 31);
-		frame.getContentPane().add(btnSiguienteAplicacin);
+		JSplitPane splitPane = new JSplitPane();
+		panelControlAplicacion.add(splitPane);
 
-		JButton btnSiguienteUsuario = new JButton("Siguiente Usuario");
-		btnSiguienteUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnSiguienteUsuario.setBounds(538, 78, 205, 31);
-		frame.getContentPane().add(btnSiguienteUsuario);
+		JButton btnAnteriorAplicacion = new JButton("Anterior");
+		btnAnteriorAplicacion.setAction(anteriorAplicacionAction);
+		splitPane.setLeftComponent(btnAnteriorAplicacion);
+
+		JButton btnSiguienteAplicacion = new JButton("Siguiente");
+		btnSiguienteAplicacion.setAction(siguienteAplicacionAction);
+		splitPane.setRightComponent(btnSiguienteAplicacion);
+
+		JPanel panelControlUsuario = new JPanel();
+		panelControlUsuario.setBounds(511, 118, 557, 41);
+		frame.getContentPane().add(panelControlUsuario);
+
+		JSplitPane splitPane_1 = new JSplitPane();
+		panelControlUsuario.add(splitPane_1);
+
+		JButton btnAnteriorUsuario = new JButton("Anterior");
+		btnAnteriorUsuario.setAction(anteriorUsuarioAction);
+		splitPane_1.setLeftComponent(btnAnteriorUsuario);
+
+		JButton btnSiguienteUsuario = new JButton("Siguiente");
+		btnSiguienteUsuario.setAction(siguienteUsuarioAction);
+		splitPane_1.setRightComponent(btnSiguienteUsuario);
+
+		JPanel panel = new JPanel();
+		panel.setBounds(734, 11, 212, 41);
+		frame.getContentPane().add(panel);
+
+		JSplitPane splitPane_2 = new JSplitPane();
+		panel.add(splitPane_2);
+
+		JButton btnAnteriorPeticion = new JButton("Anterior");
+		btnAnteriorPeticion.setAction(anteriorPeticionAction);
+		splitPane_2.setLeftComponent(btnAnteriorPeticion);
+
+		JButton btnSiguientePeticion = new JButton("Siguiente");
+		btnSiguientePeticion.setAction(siguientePeticionAction);
+		splitPane_2.setRightComponent(btnSiguientePeticion);
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(10, 63, 324, 41);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+
+		JButton btnComenzar = new JButton("Comenzar");
+		btnComenzar.setBounds(0, 0, 125, 41);
+		panel_1.add(btnComenzar);
+		btnComenzar.setAction(comenzarAnalisis);
+		
+		JButton btnSubir = new JButton("Subir");
+		btnSubir.setAction(subirPeticionAction);
+		btnSubir.setBounds(175, 0, 125, 41);
+		panel_1.add(btnSubir);
+
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(564, 11, 160, 41);
+		frame.getContentPane().add(panel_2);
+		panel_2.setLayout(null);
+
+		lblPeticion = new JLabel("Petici\u00F3n");
+		lblPeticion.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblPeticion.setBounds(0, 11, 150, 21);
+		panel_2.add(lblPeticion);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 566, 1058, 184);
+		frame.getContentPane().add(scrollPane_1);
+		
+		JTextArea textArea = new JTextArea();
+		scrollPane_1.setViewportView(textArea);
+		
+		JLabel lblLog = new JLabel("Log");
+		lblLog.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		scrollPane_1.setColumnHeaderView(lblLog);
 
 	}
 
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
+	private class ExaminarAction extends AbstractAction {
+		public ExaminarAction() {
 			putValue(NAME, "Elige Directorio");
 			putValue(SHORT_DESCRIPTION, "Genera un modal para seleccionar el directorio donde estan las peticiones");
 
@@ -383,17 +448,122 @@ public class UI {
 			}
 		}
 	}
-	private class SwingAction_1 extends AbstractAction {
-		public SwingAction_1() {
+	public class ComenzarAction extends AbstractAction {
+		public ComenzarAction() {
 			putValue(NAME, "Comenzar");
 			putValue(SHORT_DESCRIPTION, "Comienza en analisis de las peticiones");
 		}
 		public void actionPerformed(ActionEvent e) {
 			controlador.readAllPeticiones();
+			lblPeticion.setText("Petición   " + (controlador.counterPeticion+1) + "/" + controlador.listPeticiones.size());
 			setDatosAplicacion(controlador.counterAplicacion);
 			setDatosUsuario(controlador.counterUsuario);
 		}
 	}
+	
+	private class AnteriorPeticionAction extends AbstractAction {
+		public AnteriorPeticionAction() {
+			putValue(NAME, "Anterior");
+			putValue(SHORT_DESCRIPTION, "Anterior Peticion");
+		}
+		public void actionPerformed(ActionEvent e) {
+			if(controlador.counterPeticion > 0) {
+				controlador.counterPeticion = controlador.counterPeticion - 1;
+				controlador.counterAplicacion = 0;
+				controlador.counterUsuario = 0;
+				setDatosAplicacion(controlador.counterAplicacion);
+				setDatosUsuario(controlador.counterUsuario);
+				lblPeticion.setText("Petición   " + (controlador.counterPeticion+1) + "/" + controlador.listPeticiones.size());
+			}
+		}
+	}
+	private class SiguientePeticionAction extends AbstractAction {
+		public SiguientePeticionAction() {
+			putValue(NAME, "Siguiente");
+			putValue(SHORT_DESCRIPTION, "Siguiente peticion");
+		}
+		public void actionPerformed(ActionEvent e) {
+			if(controlador.counterPeticion < controlador.listPeticiones.size() - 1) {
+				controlador.counterPeticion = controlador.counterPeticion + 1;
+				controlador.counterAplicacion = 0;
+				controlador.counterUsuario = 0;
+				setDatosAplicacion(controlador.counterAplicacion);
+				setDatosUsuario(controlador.counterUsuario);
+				lblPeticion.setText("Petición   " + (controlador.counterPeticion+1) + "/" + controlador.listPeticiones.size());
+			}
+		}
+	}
+	private class AnteriorAplicacionAction extends AbstractAction {
+		public AnteriorAplicacionAction() {
+			putValue(NAME, "Anterior");
+			putValue(SHORT_DESCRIPTION, "Anterior aplicacion");
+		}
+		public void actionPerformed(ActionEvent e) {
+			if(controlador.counterAplicacion > 0) {
+				controlador.counterAplicacion = controlador.counterAplicacion -1;
+				setDatosAplicacion(controlador.counterAplicacion);
+				setDatosUsuario(controlador.counterUsuario);
+				UI.labelCounterAplicacion.setText(controlador.counterAplicacion+1 + "/" + controlador.listPeticiones.get(controlador.counterPeticion).getListAplicaciones().size());
+
+			}
+		}
+	}
+	private class SiguienteAplicacionAction extends AbstractAction {
+		public SiguienteAplicacionAction() {
+			putValue(NAME, "Siguiente");
+			putValue(SHORT_DESCRIPTION, "Siguiente aplicacion");
+		}
+		public void actionPerformed(ActionEvent e) {
+			if(controlador.counterAplicacion < controlador.listPeticiones.get(controlador.counterPeticion).getListAplicaciones().size() - 1) {
+				controlador.counterAplicacion = controlador.counterAplicacion + 1;
+				setDatosAplicacion(controlador.counterAplicacion);
+				setDatosUsuario(controlador.counterUsuario);
+				UI.labelCounterAplicacion.setText(controlador.counterAplicacion+1 + "/" + controlador.listPeticiones.get(controlador.counterPeticion).getListAplicaciones().size());
+			}
+		}
+	}
+
+	private class AnteriorUsuarioAction extends AbstractAction {
+		public AnteriorUsuarioAction() {
+			putValue(NAME, "Anterior");
+			putValue(SHORT_DESCRIPTION, "Anterior usuario");
+		}
+		public void actionPerformed(ActionEvent e) {
+			if(controlador.counterUsuario > 0) {
+				controlador.counterUsuario = controlador.counterUsuario -1;
+				setDatosAplicacion(controlador.counterAplicacion);
+				setDatosUsuario(controlador.counterUsuario);
+				UI.label_counterUsuario.setText(controlador.counterUsuario+1 + "/" + controlador.listPeticiones.get(controlador.counterUsuario).getListUsuarios().size());
+			}
+		}
+	}
+	
+	private class SiguienteUsuarioAction extends AbstractAction {
+		public SiguienteUsuarioAction() {
+			putValue(NAME, "Siguiente");
+			putValue(SHORT_DESCRIPTION, "Ssiguiente usuario");
+		}
+		public void actionPerformed(ActionEvent e) {
+			if(controlador.counterUsuario < controlador.listPeticiones.get(controlador.counterPeticion).getListUsuarios().size() - 1) {
+				controlador.counterUsuario = controlador.counterUsuario + 1;
+				setDatosAplicacion(controlador.counterAplicacion);
+				setDatosUsuario(controlador.counterUsuario);
+				UI.label_counterUsuario.setText(controlador.counterUsuario+1 + "/" + controlador.listPeticiones.get(controlador.counterUsuario).getListUsuarios().size());
+
+			}
+		}
+	}
+	
+	private class SubirPeticionAction extends AbstractAction {
+		public SubirPeticionAction() {
+			putValue(NAME, "Subir");
+			putValue(SHORT_DESCRIPTION, "Subir Peticion a Kiuwan");
+		}
+		public void actionPerformed(ActionEvent e) {
+			controlador.subirPeticionActual();
+		}
+	}
+	
 	public void setDatosAplicacion(int counterAplicacion) {
 		Aplicacion aplicacion = controlador.listPeticiones.get(controlador.counterPeticion).getListAplicaciones().get(counterAplicacion);
 
@@ -413,6 +583,7 @@ public class UI {
 
 	public void setDatosUsuario(int counterUsuario) {
 		Usuario usuario = controlador.listPeticiones.get(controlador.counterPeticion).getListUsuarios().get(counterUsuario);
+		UI.label_counterUsuario.setText(counterUsuario+1 + "/" + controlador.listPeticiones.get(controlador.counterUsuario).getListUsuarios().size());
 		UI.textFieldUsuarioTipo.setText(usuario.tipo);
 		UI.textFieldUsuarioUsername.setText(usuario.username);
 		UI.textFieldUsuarioNombre.setText(usuario.nombre);
@@ -424,8 +595,9 @@ public class UI {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
 
-		for(List<String> fila : usuario.permisos)
-			model.addRow(new Object[]{fila.get(0), fila.get(1)});
+		if(!usuario.permisos.isEmpty())
+			for(List<String> fila : usuario.permisos)
+				model.addRow(new Object[]{fila.get(0), fila.get(1)});
 	}
-
+	
 }

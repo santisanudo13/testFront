@@ -9,7 +9,9 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import model.Aplicacion;
 import model.Peticion;
+import model.Usuario;
 
 public class Controlador {
 	public String directorio;
@@ -35,10 +37,10 @@ public class Controlador {
 	}
 
 	public boolean readPeticion(File file) {
+		Peticion peticion = new Peticion();
 
 		Workbook workbook = null;
 		try {
-
 			workbook = Workbook.getWorkbook(file);
 
 			Sheet sheet = workbook.getSheet(0);
@@ -80,7 +82,7 @@ public class Controlador {
 		try {
 			if (file != null && file.exists()) {
 				String name = file.getName();
-				extension = name.substring(name.lastIndexOf("."));
+				extension = name.substring(name.lastIndexOf(".xls"));
 			}
 		} catch (Exception e) {
 			extension = "";
@@ -117,6 +119,11 @@ public class Controlador {
 	public boolean clearList() {
 		listPeticiones.clear();
 		return true;
+	}
+
+	public void subirPeticionActual() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
