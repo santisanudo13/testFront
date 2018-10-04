@@ -78,6 +78,8 @@ public class UI {
 	private final Action anteriorPeticionAction = new AnteriorPeticionAction();
 	private final Action siguientePeticionAction = new SiguientePeticionAction();
 	private final Action subirPeticionAction = new SubirPeticionAction();
+	private JTextField textField;
+	private JTextField textField_1;
 	/**
 	 * Launch the application.
 	 */
@@ -111,7 +113,7 @@ public class UI {
 		frame.getContentPane().setLayout(null);
 
 		JPanel panelDirectorio = new JPanel();
-		panelDirectorio.setBounds(10, 11, 528, 41);
+		panelDirectorio.setBounds(20, 11, 518, 41);
 		frame.getContentPane().add(panelDirectorio);
 		panelDirectorio.setLayout(null);
 
@@ -120,7 +122,7 @@ public class UI {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnEligeDirectorio.setBounds(10, 11, 154, 23);
+		btnEligeDirectorio.setBounds(0, 11, 154, 23);
 		panelDirectorio.add(btnEligeDirectorio);
 		btnEligeDirectorio.setAction(eligeDirectorio);
 
@@ -129,7 +131,7 @@ public class UI {
 		panelDirectorio.add(textPaneDirectorio);
 
 		JPanel panelDatos = new JPanel();
-		panelDatos.setBounds(10, 170, 1058, 385);
+		panelDatos.setBounds(20, 170, 1034, 385);
 		frame.getContentPane().add(panelDatos);
 		GridBagLayout gbl_panelDatos = new GridBagLayout();
 		gbl_panelDatos.columnWidths = new int[]{0, 0, 0};
@@ -346,7 +348,7 @@ public class UI {
 		scrollPane.setViewportView(tableUsuarioPermisos);
 
 		JPanel panelControlAplicacion = new JPanel();
-		panelControlAplicacion.setBounds(10, 118, 491, 41);
+		panelControlAplicacion.setBounds(20, 118, 481, 41);
 		frame.getContentPane().add(panelControlAplicacion);
 
 		JSplitPane splitPane = new JSplitPane();
@@ -376,7 +378,7 @@ public class UI {
 		splitPane_1.setRightComponent(btnSiguienteUsuario);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(734, 11, 212, 41);
+		panel.setBounds(537, 63, 212, 41);
 		frame.getContentPane().add(panel);
 
 		JSplitPane splitPane_2 = new JSplitPane();
@@ -391,16 +393,20 @@ public class UI {
 		splitPane_2.setRightComponent(btnSiguientePeticion);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 63, 324, 41);
+		panel_1.setBounds(20, 63, 314, 41);
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 
 		JButton btnComenzar = new JButton("Comenzar");
-		btnComenzar.setBounds(0, 0, 125, 41);
+		btnComenzar.setBounds(0, 0, 135, 41);
 		panel_1.add(btnComenzar);
 		btnComenzar.setAction(comenzarAnalisis);
 		
-		JButton btnSubir = new JButton("Subir");
+		JButton btnSubir = new JButton("Subir Peticion");
+		btnSubir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnSubir.setAction(subirPeticionAction);
 		btnSubir.setBounds(175, 0, 125, 41);
 		panel_1.add(btnSubir);
@@ -416,7 +422,7 @@ public class UI {
 		panel_2.add(lblPeticion);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 566, 1058, 184);
+		scrollPane_1.setBounds(20, 566, 481, 184);
 		frame.getContentPane().add(scrollPane_1);
 		
 		JTextArea textArea = new JTextArea();
@@ -425,6 +431,47 @@ public class UI {
 		JLabel lblLog = new JLabel("Log");
 		lblLog.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		scrollPane_1.setColumnHeaderView(lblLog);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(511, 566, 542, 184);
+		frame.getContentPane().add(scrollPane_2);
+		
+		JLabel lblTokens = new JLabel("Tokens");
+		lblTokens.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		scrollPane_2.setColumnHeaderView(lblTokens);
+		
+		JPanel panel_3 = new JPanel();
+		scrollPane_2.setViewportView(panel_3);
+		panel_3.setLayout(new FormLayout(new ColumnSpec[] {
+				FormSpecs.RELATED_GAP_COLSPEC,
+				FormSpecs.DEFAULT_COLSPEC,
+				FormSpecs.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblTokenFactoria = new JLabel("Token Factoria");
+		panel_3.add(lblTokenFactoria, "2, 4, left, fill");
+		
+		textField = new JTextField();
+		panel_3.add(textField, "4, 4, fill, top");
+		textField.setColumns(10);
+		
+		JLabel lblTokenLaboratorio = new JLabel("Token Laboratorio");
+		panel_3.add(lblTokenLaboratorio, "2, 10, left, fill");
+		
+		textField_1 = new JTextField();
+		panel_3.add(textField_1, "4, 10, fill, top");
+		textField_1.setColumns(10);
 
 	}
 
@@ -556,7 +603,7 @@ public class UI {
 	
 	private class SubirPeticionAction extends AbstractAction {
 		public SubirPeticionAction() {
-			putValue(NAME, "Subir");
+			putValue(NAME, "Subir Peticion");
 			putValue(SHORT_DESCRIPTION, "Subir Peticion a Kiuwan");
 		}
 		public void actionPerformed(ActionEvent e) {
@@ -599,5 +646,4 @@ public class UI {
 			for(List<String> fila : usuario.permisos)
 				model.addRow(new Object[]{fila.get(0), fila.get(1)});
 	}
-	
 }
