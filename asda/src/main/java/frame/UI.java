@@ -350,6 +350,10 @@ public class UI {
 		JPanel panelControlAplicacion = new JPanel();
 		panelControlAplicacion.setBounds(20, 118, 481, 41);
 		frame.getContentPane().add(panelControlAplicacion);
+		
+		JLabel lblAplicacin = new JLabel("Aplicaci\u00F3n");
+		lblAplicacin.setFont(new Font("Tahoma", Font.BOLD, 16));
+		panelControlAplicacion.add(lblAplicacin);
 
 		JSplitPane splitPane = new JSplitPane();
 		panelControlAplicacion.add(splitPane);
@@ -365,6 +369,10 @@ public class UI {
 		JPanel panelControlUsuario = new JPanel();
 		panelControlUsuario.setBounds(511, 118, 557, 41);
 		frame.getContentPane().add(panelControlUsuario);
+		
+		JLabel lblUsuario = new JLabel("Usuario");
+		lblUsuario.setFont(new Font("Tahoma", Font.BOLD, 16));
+		panelControlUsuario.add(lblUsuario);
 
 		JSplitPane splitPane_1 = new JSplitPane();
 		panelControlUsuario.add(splitPane_1);
@@ -378,7 +386,7 @@ public class UI {
 		splitPane_1.setRightComponent(btnSiguienteUsuario);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(537, 63, 212, 41);
+		panel.setBounds(190, 66, 212, 41);
 		frame.getContentPane().add(panel);
 
 		JSplitPane splitPane_2 = new JSplitPane();
@@ -393,7 +401,7 @@ public class UI {
 		splitPane_2.setRightComponent(btnSiguientePeticion);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(20, 63, 314, 41);
+		panel_1.setBounds(548, 11, 314, 41);
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 
@@ -412,7 +420,7 @@ public class UI {
 		panel_1.add(btnSubir);
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(564, 11, 160, 41);
+		panel_2.setBounds(20, 63, 160, 41);
 		frame.getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 
